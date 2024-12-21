@@ -1,5 +1,6 @@
 package com.example.r4h_mobileservice;
 
+import java.sql.*;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText tb_num;
     private EditText tb_device;
     private EditText tb_address;
+    private Statement statement = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,5 +85,52 @@ public class MainActivity extends AppCompatActivity {
         tb_device.setFilters(new InputFilter[]{lettersFilter});
         tb_num.setFilters(new InputFilter[]{numbersFilter});
         tb_address.setFilters(new InputFilter[]{emailFilter});
+
+        String host = "server15.hosting.reg.ru";
+        String user = "u2923335_Giyasid";
+        String password = "DYytVA3Y2!-~eX'";
+        String database = "u2923335_Giyasidinov_Rustam";
+        int port = 3306;
+
+        Connection connection = connectToMySQL(host, user, password, database, port);
+
+        if (connection != null) {
+            try (Statement statement = connection.createStatement()) {
+                ResultSet resultSet = statement.executeQuery("SELECT VERSION()");
+                if (resultSet.next()) {
+                    String version = resultSet.getString(1);
+                    System.out.println("Версия сервера: " + version);
+                }
+                resultSet.close();
+            } catch (SQLException e) {
+                System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("Ошибка при закрытии подключения: " + e.getMessage());
+                }
+            }
+        }
     }
+
+    public static Connection connectToMySQL(String host, String user, String password, String database, int port) {
+        String url = String.format("jdbc:mysql://%s:%d/%s", host, port, database);
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(url, user, password);
+            System.out.println("Подключение к MySQL успешно!");
+            return connection;
+        } catch (ClassNotFoundException e) {
+            System.out.println("Не найден JDBC драйвер: " + e.getMessage());
+            return null;
+        } catch (SQLException e) {
+            System.out.println("Ошибка при подключении к MySQL: " + e.getMessage());
+            return null;
+        }
+    }
+
+
 }
+
