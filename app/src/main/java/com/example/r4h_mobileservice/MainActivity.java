@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         tb_num.setFilters(new InputFilter[]{numbersFilter});
         tb_address.setFilters(new InputFilter[]{emailFilter});
 
-        String host = "server15.hosting.reg.ru";
+        String host = "localhost";
         String user = "u2923335_Giyasid";
         String password = "DYytVA3Y2!-~eX'";
         String database = "u2923335_Giyasidinov_Rustam";
@@ -96,12 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (connection != null) {
             try (Statement statement = connection.createStatement()) {
-                ResultSet resultSet = statement.executeQuery("SELECT VERSION()");
-                if (resultSet.next()) {
-                    String version = resultSet.getString(1);
-                    System.out.println("Версия сервера: " + version);
-                }
-                resultSet.close();
+                statement.executeUpdate("INSERT INTO amen(Title, Cost) values ('test', 300)");
             } catch (SQLException e) {
                 System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
             } finally {
