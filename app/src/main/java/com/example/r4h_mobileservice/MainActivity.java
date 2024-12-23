@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.text.InputFilter;
+import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
@@ -92,32 +93,31 @@ public class MainActivity extends AppCompatActivity {
         tb_num.setFilters(new InputFilter[]{numbersFilter});
         tb_address.setFilters(new InputFilter[]{emailFilter});
 
-        String host = "localhost";
-        String user = "u2923335_Giyasid";
-        String password = "DYytVA3Y2!-~eX'";
-        String database = "u2923335_Giyasidinov_Rustam";
-        int port = 3306;
-
-        Connection connection = connectToMySQL(host, user, password, database, port);
-
-        if (connection != null) {
-            try (Statement statement = connection.createStatement()) {
-                statement.executeUpdate("INSERT INTO amen(Title, Cost) values ('test', 300)");
-            } catch (SQLException e) {
-                System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
-            } finally {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    System.out.println("Ошибка при закрытии подключения: " + e.getMessage());
-                }
-            }
-        }
-
         b_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String host = "localhost";
+                String user = "u2923335_Giyasid";
+                String password = "DYytVA3Y2!-~eX'";
+                String database = "u2923335_Giyasidinov_Rustam";
+                int port = 3306;
 
+                Connection connection = connectToMySQL(host, user, password, database, port);
+
+                if (connection != null) {
+                    try (Statement statement = connection.createStatement()) {
+                        statement.executeUpdate("INSERT INTO amen(Title, Cost) values ('test', 300)");
+                    } catch (SQLException e) {
+                        System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
+                    } finally {
+                        try {
+                            connection.close();
+                        } catch (SQLException e) {
+                            System.out.println("Ошибка при закрытии подключения: " + e.getMessage());
+                        }
+                    }
+                }
+                Toast.makeText(getApplicationContext(), "Заказ успешно оформлен!", Toast.LENGTH_LONG).show();
             }
         });
     }
