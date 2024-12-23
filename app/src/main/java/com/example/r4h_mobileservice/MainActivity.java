@@ -3,6 +3,8 @@ package com.example.r4h_mobileservice;
 import java.sql.*;
 import android.os.Bundle;
 import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText tb_device;
     private EditText tb_address;
     private Statement statement = null;
+
+    private Button b_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         tb_num = findViewById(R.id.tb_Num);
         tb_device = findViewById(R.id.tb_Device);
         tb_address = findViewById(R.id.tb_Address);
+        b_add = findViewById(R.id.b_Add);
+
 
         String[] items = {"Choose amenity", "Replacing the display", "Replacing the speaker", "Battery Replacement", "Cleaning the speaker"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -107,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+        b_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public static Connection connectToMySQL(String host, String user, String password, String database, int port) {

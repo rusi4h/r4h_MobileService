@@ -24,7 +24,7 @@
         android:text="Оформить"
         android:textSize="16sp"
         android:layout_marginTop="670dp"
-        android:layout_marginLeft="110dp"/>
+        android:layout_marginLeft="110dp" />
 
     <EditText
         android:id="@+id/tb_Surname"
@@ -89,9 +89,10 @@
     <Spinner
         android:id="@+id/s_amenities"
         android:layout_width="380dp"
-        android:layout_marginLeft="16dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="400dp"
+        android:minHeight="48dp" />
 
     <TextView
         android:id="@+id/textView"
