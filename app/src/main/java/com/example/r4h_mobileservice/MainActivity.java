@@ -43,14 +43,35 @@ public class MainActivity extends AppCompatActivity {
         b_add = findViewById(R.id.b_Add);
 
 
-        String[] items = {"Choose amenity", "Replacing the display", "Replacing the speaker", "Battery Replacement", "Cleaning the speaker"};
+        String[] items = {"Choose amenity"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         s_amenities.setAdapter(adapter);
+
+        String host = "localhost";
+        String user = "u2923335_Giyasid";
+        String password = "DYytVA3Y2!-~eX'";
+        String database = "u2923335_Giyasidinov_Rustam";
+        int port = 3306;
+
+        Connection connection = connectToMySQL(host, user, password, database, port);
+        if (connection != null) {
+            try (Statement statement = connection.createStatement()) {
+                statement.executeUpdate("SELECT Title FROM amen");
+            } catch (SQLException e) {
+                System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    System.out.println("Ошибка при закрытии подключения: " + e.getMessage());
+                }
+            }
+        }
 
         InputFilter lettersFilter = new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                String regex = "[a-zA-Zа-яА-ЯёЁ]*";
+                String regex = "[a-zA-Zа-яА-ЯёЁ 0-9]*";
                 if (source.toString().matches(regex)) {
                     return source;
                 } else {
@@ -106,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (connection != null) {
                     try (Statement statement = connection.createStatement()) {
-                        statement.executeUpdate("INSERT INTO amen(Title, Cost) values ('test', 300)");
+                        statement.executeUpdate("INSERT INTO ord(DateO, Empl, Amen, Needed_part, Device, Summ, SurnC, NameC, NumC) values ('test')");
                     } catch (SQLException e) {
                         System.out.println("Ошибка при выполнении запроса: " + e.getMessage());
                     } finally {
@@ -117,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+
+
                 Toast.makeText(getApplicationContext(), "Заказ успешно оформлен!", Toast.LENGTH_LONG).show();
             }
         });
